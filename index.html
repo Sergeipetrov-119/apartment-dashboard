@@ -59,13 +59,13 @@
             </div>
             <div class="overflow-x-auto max-h-[500px]">
                 <table class="w-full text-left border-collapse">
-                    <thead class="bg-gray-50 sticky top-0 z-10">
+                    <thead class="bg-gray-50 sticky top-0 z-10 shadow-sm">
                         <tr>
                             <th class="p-4 text-sm font-semibold text-gray-600 border-b">거래일자</th>
                             <th class="p-4 text-sm font-semibold text-gray-600 border-b">아파트명</th>
                             <th class="p-4 text-sm font-semibold text-gray-600 border-b">법정동</th>
-                            <th class="p-4 text-sm font-semibold text-gray-600 border-b">전용면적(㎡)</th>
-                            <th class="p-4 text-sm font-semibold text-gray-600 border-b">층</th>
+                            <th class="p-4 text-sm font-semibold text-gray-600 border-b text-right">전용면적(㎡)</th>
+                            <th class="p-4 text-sm font-semibold text-gray-600 border-b text-center">층</th>
                             <th class="p-4 text-sm font-semibold text-gray-600 border-b text-right">거래금액</th>
                             <th class="p-4 text-sm font-semibold text-gray-600 border-b text-center">건축년도</th>
                         </tr>
@@ -230,22 +230,30 @@
                 return dateB - dateA;
             });
 
-            sortedData.forEach(row => {
+            sortedData.forEach((row, index) => {
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-green-50 transition-colors';
                 
-                // 가격 포맷팅 (원래 텍스트를 파싱하여 깔끔하게 표시)
+                // 짝수/홀수 줄무늬 배경 (even/odd) 및 마우스 오버 효과 추가
+                const isEven = index % 2 === 0;
+                tr.className = `${isEven ? 'bg-white' : 'bg-gray-50'} hover:bg-emerald-50 transition-colors duration-150`;
+                
+                // 가격 파싱
                 const priceNum = parseInt(row['거래금액'].replace(/,/g, ''), 10);
                 const priceStr = isNaN(priceNum) ? row['거래금액'] : formatPriceKR(priceNum);
+                
+                // 5억(50,000만) 이상 빨간색 강조, 그 외 초록색
+                const priceClass = (!isNaN(priceNum) && priceNum >= 50000) 
+                    ? 'text-red-500 font-bold' 
+                    : 'text-emerald-600 font-medium';
 
                 tr.innerHTML = `
-                    <td class="p-4 whitespace-nowrap">${row['거래일자'] || '-'}</td>
-                    <td class="p-4 font-medium text-gray-900">${row['아파트명'] || '-'}</td>
+                    <td class="p-4 whitespace-nowrap text-gray-600">${row['거래일자'] || '-'}</td>
+                    <td class="p-4 font-semibold text-gray-900">${row['아파트명'] || '-'}</td>
                     <td class="p-4 text-gray-500">${row['법정동'] || '-'}</td>
-                    <td class="p-4">${row['전용면적(㎡)'] || '-'}</td>
-                    <td class="p-4">${row['층'] ? row['층'] + '층' : '-'}</td>
-                    <td class="p-4 text-right font-semibold text-green-600">${priceStr}</td>
-                    <td class="p-4 text-center text-gray-500">${row['건축년도'] || '-'}</td>
+                    <td class="p-4 text-right text-gray-600">${row['전용면적(㎡)'] || '-'}</td>
+                    <td class="p-4 text-center text-gray-600">${row['층'] ? row['층'] + '층' : '-'}</td>
+                    <td class="p-4 text-right ${priceClass}">${priceStr}</td>
+                    <td class="p-4 text-center text-gray-400">${row['건축년도'] || '-'}</td>
                 `;
                 tbody.appendChild(tr);
             });
