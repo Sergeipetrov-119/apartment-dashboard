@@ -27,20 +27,20 @@
         <!-- Summary Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 class="text-gray-500 text-sm font-medium">전체 거래 건수</h3>
+                <h3 class="text-gray-500 text-sm font-medium">🏠 전체 거래 건수</h3>
                 <p class="text-3xl font-bold mt-2" id="total-count">-</p>
             </div>
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 class="text-gray-500 text-sm font-medium">평균 거래가격</h3>
-                <p class="text-2xl font-bold mt-2 text-blue-600" id="avg-price">-</p>
+                <h3 class="text-gray-500 text-sm font-medium">💰 평균 거래가격</h3>
+                <p class="text-2xl font-bold mt-2 text-green-600" id="avg-price">-</p>
             </div>
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 class="text-gray-500 text-sm font-medium">최고 거래가격</h3>
-                <p class="text-2xl font-bold mt-2 text-red-500" id="max-price">-</p>
+                <h3 class="text-gray-500 text-sm font-medium">📈 최고 거래가격</h3>
+                <p class="text-2xl font-bold mt-2 text-emerald-500" id="max-price">-</p>
             </div>
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h3 class="text-gray-500 text-sm font-medium">최저 거래가격</h3>
-                <p class="text-2xl font-bold mt-2 text-green-600" id="min-price">-</p>
+                <h3 class="text-gray-500 text-sm font-medium">📉 최저 거래가격</h3>
+                <p class="text-2xl font-bold mt-2 text-teal-600" id="min-price">-</p>
             </div>
         </div>
 
@@ -179,12 +179,12 @@
                     datasets: [{
                         label: '월별 평균 거래가 (만원)',
                         data: data,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderColor: '#10b981', /* 초록색 계열 (Tailwind emerald-500) */
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
                         borderWidth: 2,
                         pointBackgroundColor: '#fff',
-                        pointBorderColor: '#3b82f6',
-                        pointHoverBackgroundColor: '#3b82f6',
+                        pointBorderColor: '#10b981',
+                        pointHoverBackgroundColor: '#10b981',
                         pointHoverBorderColor: '#fff',
                         fill: true,
                         tension: 0.3
@@ -232,7 +232,7 @@
 
             sortedData.forEach(row => {
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-blue-50 transition-colors';
+                tr.className = 'hover:bg-green-50 transition-colors';
                 
                 // 가격 포맷팅 (원래 텍스트를 파싱하여 깔끔하게 표시)
                 const priceNum = parseInt(row['거래금액'].replace(/,/g, ''), 10);
@@ -244,7 +244,7 @@
                     <td class="p-4 text-gray-500">${row['법정동'] || '-'}</td>
                     <td class="p-4">${row['전용면적(㎡)'] || '-'}</td>
                     <td class="p-4">${row['층'] ? row['층'] + '층' : '-'}</td>
-                    <td class="p-4 text-right font-semibold text-blue-600">${priceStr}</td>
+                    <td class="p-4 text-right font-semibold text-green-600">${priceStr}</td>
                     <td class="p-4 text-center text-gray-500">${row['건축년도'] || '-'}</td>
                 `;
                 tbody.appendChild(tr);
